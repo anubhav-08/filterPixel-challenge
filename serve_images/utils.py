@@ -3,7 +3,7 @@ import botocore
 from botocore import UNSIGNED
 from botocore.config import Config
 import os
-from Google import Create_Service
+# from Google import Create_Service
 
 
 def fetch_s3_images():
@@ -23,42 +23,43 @@ def fetch_s3_images():
     return images_urls
 
 
+# Completing in a while  
 
-def fetch_google_images():
+# def fetch_google_images():
 
-    CLIENT_SECRET_FILE = 'client-secret.json'
-    API_NAME = 'drive'
-    API_VERSION = 'v3'
-    SCOPES = ['https://www.googleapis.com/auth/drive']
+#     CLIENT_SECRET_FILE = 'client-secret.json'
+#     API_NAME = 'drive'
+#     API_VERSION = 'v3'
+#     SCOPES = ['https://www.googleapis.com/auth/drive']
 
-    service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+#     service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
-    # Update Sharing Setting
-    file_id = '<file id>'
+#     # Update Sharing Setting
+#     file_id = '<file id>'
 
-    request_body = {
-        'role': 'reader',
-        'type': 'anyone'
-    }
+#     request_body = {
+#         'role': 'reader',
+#         'type': 'anyone'
+#     }
 
-    response_permission = service.permissions().create(
-        fileId=file_id,
-        body=request_body
-    ).execute()
+#     response_permission = service.permissions().create(
+#         fileId=file_id,
+#         body=request_body
+#     ).execute()
 
-    print(response_permission)
+#     print(response_permission)
     
-    # Print Sharing URL
-    response_share_link = service.files().get(
-        fileId=file_id,
-        fields='webViewLink'
-    ).execute()
+#     # Print Sharing URL
+#     response_share_link = service.files().get(
+#         fileId=file_id,
+#         fields='webViewLink'
+#     ).execute()
 
-    print(response_share_link)
+#     print(response_share_link)
 
-    # Remove Sharing Permission
-    service.permissions().delete(
-        fileId=file_id,
-        permissionId='anyoneWithLink'
-    ).execute()
+#     # Remove Sharing Permission
+#     service.permissions().delete(
+#         fileId=file_id,
+#         permissionId='anyoneWithLink'
+#     ).execute()
 
