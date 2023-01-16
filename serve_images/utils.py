@@ -52,7 +52,7 @@ def fetch_google_images():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'serve_images\credentials.json', SCOPES)
+                'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
@@ -68,15 +68,16 @@ def fetch_google_images():
                                         includeItemsFromAllDrives=True, 
                                         supportsAllDrives=True, 
                                         corpora="allDrives", 
-                                        fields='files(webViewLink)').execute()
+                                        fields='files(id)').execute()
         items = results.get('files', [])
 
         if not items:
             print('No files found.')
             return
         response = []
+        base_url = 'https://drive.google.com/uc?id='
         for item in items:
-            response.append(item['webViewLink'])
+            response.append(base_url + item['id'])
         return response
     except HttpError as error:
         # TODO(developer) - Handle errors from drive API.

@@ -6,11 +6,15 @@ import json
 
 class S3ImagesView(generics.GenericAPIView):
     def get(self, request):
-        img_urls = json.dumps(fetch_s3_images())
+        img_urls = json.dumps({
+                    'data' :   fetch_s3_images()
+        })
 
         return Response(img_urls)
 
 class GoogleImagesView(generics.GenericAPIView):
     def get(self, request):
-        img_urls = json.dumps(fetch_google_images())
+        img_urls = json.dumps({
+                    'data' : fetch_google_images()
+        })
         return Response(img_urls)
