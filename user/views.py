@@ -8,6 +8,7 @@ from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
+import json
 
 # Class based view to Get User Details using Token Authentication
 class UserDetailAPI(APIView):
@@ -23,20 +24,19 @@ class RegisterUserAPIView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
+# Login based view to login user along with generation of auth token
 class LoginUserAPIView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
     def post(self, request):
         data = {}
-        reqBody = request.POST
-        print(reqBody)
-        username = reqBody['username']
-        print(username)
-        password = reqBody['password']
+        req_body = json.loads(request.body) #for request made other than browser in json format
+        username = req_body['username']
+        password = req_body['password']
         try:
 
-            Account = User.objects.get(username=username)
+            Account = User.objects.get(username = username)
         except BaseException as e:
             raise ValidationError({"400": f'{str(e)}'})
 
