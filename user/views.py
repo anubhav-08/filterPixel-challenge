@@ -2,13 +2,15 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import UserSerializer,RegisterSerializer, LoginSerializer
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
 import json
+
+User = get_user_model()
 
 # Class based view to Get User Details using Token Authentication
 class UserDetailAPI(APIView):
@@ -32,11 +34,11 @@ class LoginUserAPIView(generics.GenericAPIView):
     def post(self, request):
         data = {}
         req_body = json.loads(request.body) #for request made other than browser in json format
-        username = req_body['username']
+        email = req_body['email']
         password = req_body['password']
         try:
 
-            Account = User.objects.get(username = username)
+            Account = User.objects.get(email = email)
         except BaseException as e:
             raise ValidationError({"400": f'{str(e)}'})
 
