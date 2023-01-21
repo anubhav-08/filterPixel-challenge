@@ -5,9 +5,6 @@ from .serializers import UserSerializer,RegisterSerializer, LoginSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics, status
-from rest_framework.exceptions import ValidationError
-from rest_framework.authtoken.models import Token
-from django.contrib.auth import login
 
 User = get_user_model()
 
@@ -68,6 +65,7 @@ class LoginUserAPIView(generics.GenericAPIView):
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
     def post(self, request):
+        print(request.data)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
